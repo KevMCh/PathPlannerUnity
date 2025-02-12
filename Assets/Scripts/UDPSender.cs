@@ -1,27 +1,19 @@
-using UnityEngine;
+using System;
 using System.Net;
 using System.Net.Sockets;
-using System;
 
-public class UdpSender : MonoBehaviour
+public class UdpSender
 {
     public string host = "127.0.0.1";
     public int port = 12345;
 
     private UdpClient udpClient;
 
-    void Start()
+    public UdpSender(string host, int port)
     {
+        this.host = host;
+        this.port = port;
         udpClient = new UdpClient();
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            float randomNumber = 1;
-            SendNumber(randomNumber);
-        }
     }
 
     public void SendNumber(float number)
@@ -30,11 +22,11 @@ public class UdpSender : MonoBehaviour
         {
             byte[] data = FloatToByteArray(number);
             udpClient.Send(data, data.Length, host, port);
-            Debug.Log($"Number sent: {number}");
+            Console.WriteLine($"Number sent: {number}");
         }
         catch (Exception e)
         {
-            Debug.LogError($"Error sending: {e.Message}");
+            Console.WriteLine($"Error sending: {e.Message}");
         }
     }
 
@@ -48,7 +40,7 @@ public class UdpSender : MonoBehaviour
         return bytes;
     }
 
-    void OnApplicationQuit()
+    public void Close()
     {
         udpClient.Close();
     }
