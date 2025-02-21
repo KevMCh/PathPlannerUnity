@@ -2,10 +2,12 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 
+using UnityEngine;
+
 public class UdpSender
 {
     public string host = "127.0.0.1";
-    public int port = 12345;
+    public int port = 12350;
 
     private UdpClient udpClient;
 
@@ -23,6 +25,7 @@ public class UdpSender
             byte[] data = FloatToByteArray(number);
             udpClient.Send(data, data.Length, host, port);
             Console.WriteLine($"Number sent: {number}");
+            Debug.Log("Enviado");
         }
         catch (Exception e)
         {
